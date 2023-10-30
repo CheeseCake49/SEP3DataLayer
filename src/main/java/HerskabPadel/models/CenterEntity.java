@@ -1,4 +1,4 @@
-package main.HerskabPadel.models;
+package HerskabPadel.models;
 import main.Proto.*;
 import java.util.List;
 

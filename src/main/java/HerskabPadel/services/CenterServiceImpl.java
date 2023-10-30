@@ -1,4 +1,4 @@
-package main.HerskabPadel.services;
+package HerskabPadel.services;
 
 import main.HerskabPadel.models.CenterEntity;
 import main.HerskabPadel.repos.CenterRepository;

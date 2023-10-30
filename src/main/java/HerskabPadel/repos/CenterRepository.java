@@ -1,6 +1,6 @@
-package main.HerskabPadel.repos;
+package HerskabPadel.repos;
 
-import main.HerskabPadel.models.CenterEntity;
+import HerskabPadel.models.CenterEntity;
 import org.springframework.data.repository.CrudRepository;
 
 public interface CenterRepository extends CrudRepository<CenterEntity, Integer> {

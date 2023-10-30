@@ -1,4 +1,4 @@
-package main.HerskabPadel.models;
+package HerskabPadel.models;
 
 public class Court {
 

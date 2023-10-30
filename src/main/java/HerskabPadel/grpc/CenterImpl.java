@@ -1,6 +1,6 @@
-package main.HerskabPadel.grpc;
+package HerskabPadel.grpc;
 
-import main.HerskabPadel.services.CenterServiceImpl;
+import HerskabPadel.services.CenterServiceImpl;
 
 @GRpcService public class CenterImpl extends CenterGRPC.CenterImplBase {
 

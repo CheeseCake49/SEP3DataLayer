@@ -1,4 +1,4 @@
-package main.HerskabPadel.services.interfaces;
+package HerskabPadel.services.interfaces;
 
 import main.HerskabPadel.models.CenterEntity;
 
