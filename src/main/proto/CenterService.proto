@@ -1,26 +1,17 @@
 syntax = "proto3";
 option java_multiple_files = true;
+package sep3datalayer.grpc.protobuf;
+option csharp_namespace = "sep3client.center";
 
 message CreatingCenter {
   string name = 1;
   string location = 2;
-  repeated Court courts = 3;
-}
-
-message Court {
-  int32 id = 1;
-  repeated TimeSlot timeslots = 2;
-}
-
-message TimeSlot {
-  int64 seconds = 1;
 }
 
 message CenterGrpc {
   int32 id = 1;
   string name = 2;
   string location = 3;
-  repeated Court courts = 4;
 }
 
 service CenterService {
