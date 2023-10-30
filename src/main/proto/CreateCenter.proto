@@ -1,6 +1,5 @@
 syntax = "proto3";
 option java_multiple_files = true;
-package src.main.java.Center;
 
 message CreateCenter {
   string name = 1;
@@ -9,21 +8,21 @@ message CreateCenter {
 }
 
 message Court {
-  optional int32 id = 1;
+  int32 id = 1;
   repeated TimeSlot timeslots = 2;
 }
 
 message TimeSlot {
-  optional int64 seconds = 1;
+  int64 seconds = 1;
 }
-
+/*
 service CenterCreator {
   rpc CreateCenter (CreateCenter) returns (CenterGRPC) {}
 }
-
+*/
 message CenterGRPC {
   int32 id = 1;
   string name = 2;
   string location = 3;
   int32 numberOfCourts = 4;
-  }
+}

@@ -1,5 +1,4 @@
 package HerskabPadel.models;
-import main.Proto.*;
 import java.util.List;
 
 public class CenterEntity {
