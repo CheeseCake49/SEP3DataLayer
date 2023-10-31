@@ -25,6 +25,15 @@ public class CenterEntity {
     private String location;
 
 
+    public CenterEntity() {
+
+    }
+
+    public CenterEntity(String name, String location) {
+        this.name = name;
+        this.location = location;
+    }
+
     public int getId() {
         return id;
     }
