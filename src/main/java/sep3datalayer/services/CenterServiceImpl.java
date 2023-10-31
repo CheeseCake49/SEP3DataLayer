@@ -22,4 +22,9 @@ import sep3datalayer.services.interfaces.CenterService;
 
         centerRepository.save(centerEntityRecord);
     }
+
+    @Override
+    public CenterEntity getByName(String name) {
+        return centerRepository.findByName(name);
+    }
 }
