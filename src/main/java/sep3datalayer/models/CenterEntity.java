@@ -13,7 +13,6 @@ import java.util.Objects;
 @NaturalIdCache
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 
-
 public class CenterEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

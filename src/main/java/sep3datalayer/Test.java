@@ -5,6 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import sep3datalayer.models.CenterEntity;
 import sep3datalayer.repos.CenterRepository;
+import sep3datalayer.services.CenterServiceImpl;
+import sep3datalayer.services.interfaces.CenterService;
 
 @SpringBootApplication public class Test
 {
@@ -12,9 +14,11 @@ import sep3datalayer.repos.CenterRepository;
   {
     ConfigurableApplicationContext context = SpringApplication.run(Test.class);
     CenterRepository centerRepository = context.getBean(CenterRepository.class);
-    CenterEntity center  = new CenterEntity("Test", "Horsens");
+    CenterEntity center  = new CenterEntity("TestNummer2", "Horsens");
 
-    centerRepository.save(center);
+    CenterService centerService = new CenterServiceImpl(centerRepository);
+    centerService.addCenter(center);
+
     context.close();
   }
 }
