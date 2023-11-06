@@ -2,14 +2,14 @@ package sep3datalayer.grpc;
 
 import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
-import net.devh.boot.grpc.server.service.GrpcService;
+import org.lognet.springboot.grpc.GRpcService;
 import sep3datalayer.grpc.protobuf.CenterGrpc;
 import sep3datalayer.grpc.protobuf.CenterServiceGrpc;
 import sep3datalayer.grpc.protobuf.CreatingCenter;
 import sep3datalayer.models.CenterEntity;
 import sep3datalayer.services.CenterServiceImpl;
 
-@GrpcService public class CenterImpl extends CenterServiceGrpc.CenterServiceImplBase {
+@GRpcService public class CenterImpl extends CenterServiceGrpc.CenterServiceImplBase {
 
     private final CenterServiceImpl centerService;
 
@@ -20,7 +20,7 @@ import sep3datalayer.services.CenterServiceImpl;
     @Override
     public void createCenter(CreatingCenter center, StreamObserver<CenterGrpc> responseObserver) {
         try {
-            centerService.addCenter(new CenterEntity());
+            centerService.addCenter(new CenterEntity(center.getName(), center.getLocation()));
 
             CenterEntity centerCreated = centerService.getByName(center.getName());
 
