@@ -20,17 +20,22 @@ public class CenterEntity {
     private int id;
     @Column(name = "name", unique = true)
     private String name;
-    @Column(name = "location")
-    private String location;
-
+    @Column(name = "zipCode")
+    private int zipCode;
+    @Column(name = "city")
+    private String city;
+    @Column (name = "address")
+    private String address;
 
     public CenterEntity() {
 
     }
 
-    public CenterEntity(String name, String location) {
+    public CenterEntity(String name, int zipCode, String city, String address) {
         this.name = name;
-        this.location = location;
+        this.zipCode = zipCode;
+        this.city = city;
+        this.address = address;
     }
 
     public int getId() {
@@ -41,20 +46,30 @@ public class CenterEntity {
         return name;
     }
 
-    public String getLocation() {
-        return location;
+    public int getZipCode() {
+        return zipCode;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getAddress() {
+        return address;
     }
 
     @Override
     public String toString() {
-        return "Center [id=" + id + ", name=" + name + ", location=" + location + "]";
+        return "Center [id = " + id + ", name = " + name + ", zip code = " + zipCode + ", city = " + city + ", address = " + address + "]";
     }
 
     public CenterGrpc convertToCenterGrpc() {
         CenterGrpc.Builder builder = CenterGrpc.newBuilder();
         builder.setId(this.id);
         builder.setName(this.name);
-        builder.setLocation(this.location);
+        builder.setZipCode(this.zipCode);
+        builder.setCity(this.city);
+        builder.setAddress(this.address);
         return builder.build();
     }
 
@@ -63,11 +78,11 @@ public class CenterEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CenterEntity that = (CenterEntity) o;
-        return id == that.id && Objects.equals(name, that.name) && Objects.equals(location, that.location);
+        return id == that.id && Objects.equals(name, that.name) && zipCode == that.zipCode && city.equals(that.city) && address.equals(that.address);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, location);
+        return Objects.hash(id, name, zipCode, city, address);
     }
 }

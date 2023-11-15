@@ -14,7 +14,7 @@ import sep3datalayer.services.interfaces.CenterService;
   {
     ConfigurableApplicationContext context = SpringApplication.run(Test.class);
     CenterRepository centerRepository = context.getBean(CenterRepository.class);
-    CenterEntity center  = new CenterEntity("TestNummer2", "Horsens");
+    CenterEntity center  = new CenterEntity("Smash", 8700, "Horsens", "SomeRoad");
 
     CenterService centerService = new CenterServiceImpl(centerRepository);
     centerService.addCenter(center);

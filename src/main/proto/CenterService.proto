@@ -6,13 +6,17 @@ option csharp_namespace = "sep3client.center";
 
 message CreatingCenter {
   string name = 1;
-  string location = 2;
+  int32 zipCode = 2;
+  string city = 3;
+  string address = 4;
 }
 
 message CenterGrpc {
   int32 id = 1;
   string name = 2;
-  string location = 3;
+  int32 zipCode = 3;
+  string city = 4;
+  string address = 5;
 }
 
 message CenterList {
