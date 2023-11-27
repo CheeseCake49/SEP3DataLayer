@@ -34,8 +34,7 @@ import sep3datalayer.services.CenterServiceImpl;
             Status status;
             if (e instanceof IllegalArgumentException) {
                 status = Status.FAILED_PRECONDITION.withDescription(e.getMessage());
-            }
-            else {
+            } else {
                 status = Status.INTERNAL.withDescription(e.getMessage());
             }
             responseObserver.onError(status.asRuntimeException());
@@ -45,16 +44,17 @@ import sep3datalayer.services.CenterServiceImpl;
     @Override
     public void getCenters(com.google.protobuf.Empty request, StreamObserver<CenterList> responseObserver) {
         try {
-            CenterList centerList = CenterList.newBuilder().addAllCenter(centerService.getAllCenters()).build();
-
-            responseObserver.onNext(centerList);
+            CenterList.Builder centerList = CenterList.newBuilder();
+            for (CenterEntity center : centerService.getAllCenters()) {
+                centerList.addCenter(center.convertToCenterGrpc());
+            }
+            responseObserver.onNext(centerList.build());
             responseObserver.onCompleted();
         } catch (Exception e) {
             Status status;
             if (e instanceof IllegalArgumentException) {
                 status = Status.FAILED_PRECONDITION.withDescription(e.getMessage());
-            }
-            else {
+            } else {
                 status = Status.INTERNAL.withDescription(e.getMessage());
             }
             responseObserver.onError(status.asRuntimeException());
