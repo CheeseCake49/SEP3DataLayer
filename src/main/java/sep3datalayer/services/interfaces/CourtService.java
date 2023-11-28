@@ -6,5 +6,5 @@ public interface CourtService {
 
     void addCourt(CourtEntity courtEntityRecord);
     CourtEntity getByCenterIdAndCourtNumber(int centerId, int courtNumber);
-
+    void deleteCourt(int centerId, int courtNumber);
 }

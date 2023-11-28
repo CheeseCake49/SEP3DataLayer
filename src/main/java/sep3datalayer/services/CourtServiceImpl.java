@@ -26,4 +26,12 @@ public class CourtServiceImpl implements CourtService {
     public CourtEntity getByCenterIdAndCourtNumber(int centerId, int courtNumber) {
         return courtRepository.findByCenterIdAndCourtNumber(centerId, courtNumber);
     }
+
+    @Override
+    public void deleteCourt(int centerId, int courtNumber) {
+        if (getByCenterIdAndCourtNumber(centerId, courtNumber) == null) {
+            throw new IllegalArgumentException("Court not found!");
+        }
+        courtRepository.deleteCourtEntityByCenterIdAndAndCourtNumber(centerId, courtNumber);
+    }
 }

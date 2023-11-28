@@ -1,11 +1,10 @@
 package sep3datalayer.grpc;
 
+import com.google.protobuf.Empty;
 import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
 import org.lognet.springboot.grpc.GRpcService;
-import sep3datalayer.grpc.protobuf.CourtGrpc;
-import sep3datalayer.grpc.protobuf.CourtServiceGrpc;
-import sep3datalayer.grpc.protobuf.CreatingCourt;
+import sep3datalayer.grpc.protobuf.*;
 import sep3datalayer.models.CourtEntity;
 import sep3datalayer.services.CourtServiceImpl;
 
@@ -33,6 +32,22 @@ public class CourtImpl extends CourtServiceGrpc.CourtServiceImplBase {
             responseObserver.onNext(court1);
             responseObserver.onCompleted();
 
+        } catch (Exception e) {
+            Status status;
+            if (e instanceof IllegalArgumentException) {
+                status = Status.FAILED_PRECONDITION.withDescription(e.getMessage());
+            }
+            else {
+                status = Status.INTERNAL.withDescription(e.getMessage());
+            }
+            responseObserver.onError(status.asRuntimeException());
+        }
+    }
+
+    @Override
+    public void deleteCourtFromCenterId(CourtDeletion courtDeletion, StreamObserver<Empty> responseObserver) {
+        try {
+            courtService.deleteCourt(courtDeletion.getCenterId(), courtDeletion.getCourtNumber());
         } catch (Exception e) {
             Status status;
             if (e instanceof IllegalArgumentException) {

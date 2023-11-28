@@ -27,7 +27,13 @@ message CenterId {
   int32 id = 1;
 }
 
+message CourtDeletion {
+  int32 centerId = 1;
+  int32 courtNumber = 2;
+}
+
 service CourtService {
   rpc CreateCourt(CreatingCourt) returns (CourtGrpc);
   rpc GetCourtsFromCenterId(CenterId) returns (CourtList);
+  rpc DeleteCourtFromCenterId(CourtDeletion) returns (google.protobuf.Empty);
 }
