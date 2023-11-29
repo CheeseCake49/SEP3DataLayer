@@ -1,8 +1,9 @@
 package sep3datalayer.models;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.NaturalIdCache;
+import jakarta.persistence.Table;
+import org.hibernate.annotations.*;
+import org.hibernate.engine.internal.Cascade;
 import sep3datalayer.grpc.protobuf.CourtGrpc;
 
 import java.util.Objects;
@@ -16,8 +17,8 @@ public class CourtEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
-    @Column(name = "centerId")
-    private int centerId;
+    @ManyToOne (fetch = FetchType.LAZY) @JoinColumn(name = "center_id", referencedColumnName = "id") @OnDelete(action = OnDeleteAction.CASCADE)
+    private CenterEntity center;
     @Column(name = "type")
     private String courtType;
     @Column(name = "number")
@@ -29,8 +30,8 @@ public class CourtEntity {
 
     }
 
-    public CourtEntity(int centerId, String courtType, int courtNumber, String courtSponsor){
-        this.centerId = centerId;
+    public CourtEntity(CenterEntity center, String courtType, int courtNumber, String courtSponsor){
+        this.center = center;
         this.courtType = courtType;
         this.courtNumber = courtNumber;
         this.courtSponsor = courtSponsor;
@@ -40,8 +41,8 @@ public class CourtEntity {
         return id;
     }
 
-    public int getCenterId() {
-        return centerId;
+    public CenterEntity getCenter() {
+        return center;
     }
 
     public String getCourtType() {
@@ -64,7 +65,7 @@ public class CourtEntity {
     public CourtGrpc convertToCourtGrpc() {
         CourtGrpc.Builder builder = CourtGrpc.newBuilder();
         builder.setId(id);
-        builder.setCenterId(centerId);
+        builder.setCenterId(center.getId());
         builder.setCourtType(courtType);
         builder.setCourtNumber(courtNumber);
         builder.setCourtSponsor(courtSponsor);
@@ -76,11 +77,11 @@ public class CourtEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CourtEntity that = (CourtEntity) o;
-        return id == that.id && centerId == that.centerId && courtType.equals(that.courtType) && courtNumber == that.courtNumber && courtSponsor.equals(that.courtSponsor);
+        return id == that.id && center.equals(that.center) && courtType.equals(that.courtType) && courtNumber == that.courtNumber && courtSponsor.equals(that.courtSponsor);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, centerId, courtType, courtNumber, courtSponsor);
+        return Objects.hash(id, center, courtType, courtNumber, courtSponsor);
     }
 }

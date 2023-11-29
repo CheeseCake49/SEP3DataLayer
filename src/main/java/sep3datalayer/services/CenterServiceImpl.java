@@ -37,5 +37,10 @@ import java.util.ArrayList;
         return centers;
     }
 
+    @Override
+    public CenterEntity getById(int id) {
+        return centerRepository.findById(id).orElseThrow();
+    }
+
 
 }

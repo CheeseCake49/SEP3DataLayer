@@ -6,6 +6,7 @@ import io.grpc.stub.StreamObserver;
 import org.lognet.springboot.grpc.GRpcService;
 import sep3datalayer.grpc.protobuf.*;
 import sep3datalayer.models.CourtEntity;
+import sep3datalayer.services.CenterServiceImpl;
 import sep3datalayer.services.CourtServiceImpl;
 
 
@@ -13,16 +14,18 @@ import sep3datalayer.services.CourtServiceImpl;
 public class CourtImpl extends CourtServiceGrpc.CourtServiceImplBase {
 
     private final CourtServiceImpl courtService;
+    private final CenterServiceImpl centerService;
 
-
-    public CourtImpl(CourtServiceImpl courtService) {
+    public CourtImpl(CourtServiceImpl courtService, CenterServiceImpl centerService) {
         this.courtService = courtService;
+        this.centerService = centerService;
     }
 
     @Override
     public void createCourt(CreatingCourt court, StreamObserver<CourtGrpc> responseObserver) {
         try {
-            courtService.addCourt(new CourtEntity(court.getCenterId(), court.getCourtType(), court.getCourtNumber(), court.getCourtSponsor()));
+
+            courtService.addCourt(new CourtEntity(centerService.getById(court.getCenterId()), court.getCourtType(), court.getCourtNumber(), court.getCourtSponsor()));
 
             CourtEntity courtCreated = courtService.getByCenterIdAndCourtNumber(court.getCenterId(), court.getCourtNumber());
 

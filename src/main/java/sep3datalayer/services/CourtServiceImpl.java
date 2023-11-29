@@ -18,7 +18,7 @@ public class CourtServiceImpl implements CourtService {
 
     @Override
     public void addCourt(CourtEntity courtEntityRecord) {
-        if (courtRepository.findByCenterIdAndCourtNumber(courtEntityRecord.getCenterId(), courtEntityRecord.getCourtNumber()) != null) {
+        if (courtRepository.findByCenterIdAndCourtNumber(courtEntityRecord.getCenter().getId(), courtEntityRecord.getCourtNumber()) != null) {
             throw new IllegalArgumentException("Court with that number already exists!");
         }
         courtRepository.save(courtEntityRecord);
@@ -34,7 +34,8 @@ public class CourtServiceImpl implements CourtService {
         if (getByCenterIdAndCourtNumber(centerId, courtNumber) == null) {
             throw new IllegalArgumentException("Court not found!");
         }
-        courtRepository.deleteCourtEntityByCenterIdAndAndCourtNumber(centerId, courtNumber);
+        CourtEntity courtEntity = courtRepository.findByCenterIdAndCourtNumber(centerId, courtNumber);
+        courtRepository.deleteById(courtEntity.getId());
     }
 
     @Override

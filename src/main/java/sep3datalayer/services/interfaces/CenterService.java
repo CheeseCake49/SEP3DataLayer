@@ -9,4 +9,5 @@ public interface CenterService {
     void addCenter(CenterEntity centerEntityRecord);
     CenterEntity getByName(String name);
     List<CenterEntity> getAllCenters();
+    CenterEntity getById(int id);
 }
