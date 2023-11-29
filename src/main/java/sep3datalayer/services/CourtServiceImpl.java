@@ -5,6 +5,8 @@ import sep3datalayer.models.CourtEntity;
 import sep3datalayer.repos.CourtRepository;
 import sep3datalayer.services.interfaces.CourtService;
 
+import java.util.List;
+
 @Service
 public class CourtServiceImpl implements CourtService {
 
@@ -33,5 +35,10 @@ public class CourtServiceImpl implements CourtService {
             throw new IllegalArgumentException("Court not found!");
         }
         courtRepository.deleteCourtEntityByCenterIdAndAndCourtNumber(centerId, courtNumber);
+    }
+
+    @Override
+    public List<CourtEntity> getByCenterID(int centerID) {
+        return courtRepository.findAllByCenterId(centerID);
     }
 }
