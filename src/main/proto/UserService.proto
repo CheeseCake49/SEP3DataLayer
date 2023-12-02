@@ -1,0 +1,34 @@
+syntax = "proto3";
+option java_multiple_files = true;
+import "google/protobuf/empty.proto";
+package sep3datalayer.grpc.protobuf;
+option csharp_namespace = "sep3client.user";
+
+message CreatingUser {
+  string username = 1;
+  string password = 2;
+  string email = 3;
+  string name = 4;
+  string role = 5;
+}
+
+message UserGrpc {
+  string username = 1;
+  string password = 2;
+  string email = 3;
+  string name = 4;
+  string role = 5;
+}
+
+message UserList {
+  repeated UserGrpc user = 1;
+}
+
+message UserUsername {
+  string username = 1;
+}
+
+service UserService {
+  rpc CreateUser(CreatingUser) returns (UserGrpc);
+  rpc GetAllUsers(google.protobuf.Empty) returns (UserList);
+}
