@@ -10,4 +10,5 @@ public interface CenterService {
     CenterEntity getByName(String name);
     List<CenterEntity> getAllCenters();
     CenterEntity getById(int id);
+    void deleteCenter(int id);
 }

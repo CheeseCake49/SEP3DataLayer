@@ -41,5 +41,12 @@ import java.util.ArrayList;
         return centerRepository.findById(id).orElseThrow();
     }
 
+    @Override
+    public void deleteCenter(int id) {
+        if (getById(id) == null) {
+            throw new IllegalArgumentException("Center not found!");
+        }
+        centerRepository.deleteById(id);
+    }
 
 }

@@ -1,12 +1,10 @@
 package sep3datalayer.grpc;
 
+import com.google.protobuf.Empty;
 import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
 import org.lognet.springboot.grpc.GRpcService;
-import sep3datalayer.grpc.protobuf.CenterGrpc;
-import sep3datalayer.grpc.protobuf.CenterList;
-import sep3datalayer.grpc.protobuf.CenterServiceGrpc;
-import sep3datalayer.grpc.protobuf.CreatingCenter;
+import sep3datalayer.grpc.protobuf.*;
 import sep3datalayer.models.CenterEntity;
 import sep3datalayer.services.CenterServiceImpl;
 
@@ -35,6 +33,22 @@ import sep3datalayer.services.CenterServiceImpl;
             if (e instanceof IllegalArgumentException) {
                 status = Status.FAILED_PRECONDITION.withDescription(e.getMessage());
             } else {
+                status = Status.INTERNAL.withDescription(e.getMessage());
+            }
+            responseObserver.onError(status.asRuntimeException());
+        }
+    }
+
+    @Override
+    public void deleteCenter(CenterId centerId, StreamObserver<Empty> responseObserver) {
+        try {
+            centerService.deleteCenter(centerId.getId());
+        } catch (Exception e) {
+            Status status;
+            if (e instanceof IllegalArgumentException) {
+                status = Status.FAILED_PRECONDITION.withDescription(e.getMessage());
+            }
+            else {
                 status = Status.INTERNAL.withDescription(e.getMessage());
             }
             responseObserver.onError(status.asRuntimeException());

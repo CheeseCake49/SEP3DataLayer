@@ -19,11 +19,16 @@ message CenterGrpc {
   string address = 5;
 }
 
+message CenterId {
+  int32 id = 1;
+}
+
 message CenterList {
   repeated CenterGrpc center = 1;
 }
 
 service CenterService {
   rpc CreateCenter(CreatingCenter) returns (CenterGrpc);
+  rpc DeleteCenter(CenterId) returns (google.protobuf.Empty);
   rpc GetCenters(google.protobuf.Empty) returns (CenterList);
 }
