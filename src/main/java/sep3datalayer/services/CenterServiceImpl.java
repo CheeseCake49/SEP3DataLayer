@@ -1,6 +1,7 @@
 package sep3datalayer.services;
 
 import org.springframework.stereotype.Service;
+import sep3datalayer.grpc.protobuf.UpdatingCenter;
 import sep3datalayer.models.CenterEntity;
 import sep3datalayer.repos.CenterRepository;
 import sep3datalayer.services.interfaces.CenterService;
@@ -49,4 +50,14 @@ import java.util.ArrayList;
         centerRepository.deleteById(id);
     }
 
+    @Override
+    public void updateCenter(UpdatingCenter center) {
+        CenterEntity centerEntity = getById(center.getId());
+        centerEntity.setName(center.getName());
+        centerEntity.setZipCode(center.getZipCode());
+        centerEntity.setCity(center.getCity());
+        centerEntity.setAddress(center.getAddress());
+
+        centerRepository.save(centerEntity);
+    }
 }

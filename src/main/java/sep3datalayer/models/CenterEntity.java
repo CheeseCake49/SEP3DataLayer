@@ -58,6 +58,22 @@ public class CenterEntity {
         return address;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setZipCode(int zipCode) {
+        this.zipCode = zipCode;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     @Override
     public String toString() {
         return "Center [id = " + id + ", name = " + name + ", zip code = " + zipCode + ", city = " + city + ", address = " + address + "]";

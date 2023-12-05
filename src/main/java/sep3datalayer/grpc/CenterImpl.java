@@ -74,4 +74,45 @@ import sep3datalayer.services.CenterServiceImpl;
             responseObserver.onError(status.asRuntimeException());
         }
     }
+
+    @Override
+    public void updateCenter(UpdatingCenter center, StreamObserver<CenterGrpc> responseObserver) {
+        try {
+            centerService.updateCenter(center);
+
+            CenterGrpc center1 = centerService.getById(center.getId()).convertToCenterGrpc();
+            responseObserver.onNext(center1);
+            responseObserver.onCompleted();
+        } catch (Exception e) {
+            Status status;
+            if (e instanceof IllegalArgumentException) {
+                status = Status.FAILED_PRECONDITION.withDescription(e.getMessage());
+            } else {
+                status = Status.INTERNAL.withDescription(e.getMessage());
+            }
+            responseObserver.onError(status.asRuntimeException());
+        }
+    }
+
+    @Override
+    public void getById(CenterId centerId, StreamObserver<CenterGrpc> responseObserver) {
+        try {
+            CenterEntity center = centerService.getById(centerId.getId());
+
+            CenterGrpc centerGrpc = CenterGrpc.newBuilder().setId(center.getId()).setName(center.getName())
+                    .setZipCode(center.getZipCode()).setCity(center.getCity())
+                    .setAddress(center.getAddress()).build();
+
+            responseObserver.onNext(centerGrpc);
+            responseObserver.onCompleted();
+        } catch (Exception e) {
+            Status status;
+            if (e instanceof IllegalArgumentException) {
+                status = Status.FAILED_PRECONDITION.withDescription(e.getMessage());
+            } else {
+                status = Status.INTERNAL.withDescription(e.getMessage());
+            }
+            responseObserver.onError(status.asRuntimeException());
+        }
+    }
 }
