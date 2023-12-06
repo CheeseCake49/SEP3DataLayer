@@ -1,6 +1,7 @@
 syntax = "proto3";
 option java_multiple_files = true;
 import "google/protobuf/empty.proto";
+import "UserService.proto";
 package sep3datalayer.grpc.protobuf;
 option csharp_namespace = "sep3client.center";
 
@@ -27,8 +28,14 @@ message CenterList {
   repeated CenterGrpc center = 1;
 }
 
+message CenterAdmin {
+  int32 centerId = 1;
+  string username = 2;
+}
+
 service CenterService {
   rpc CreateCenter(CreatingCenter) returns (CenterGrpc);
   rpc DeleteCenter(CenterId) returns (google.protobuf.Empty);
   rpc GetCenters(google.protobuf.Empty) returns (CenterList);
+  rpc AddCenterAdmin(CenterAdmin) returns (UserUsername);
 }

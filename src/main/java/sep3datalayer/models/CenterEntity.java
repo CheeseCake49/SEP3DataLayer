@@ -5,8 +5,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.NaturalIdCache;
 import sep3datalayer.grpc.protobuf.CenterGrpc;
 
-import java.util.Objects;
-
+import java.util.*;
 
 @Entity(name = "Center")
 @Table(name = "center", schema = "sep3herskab")
@@ -20,12 +19,26 @@ public class CenterEntity {
     private int id;
     @Column(name = "name", unique = true)
     private String name;
-    @Column(name = "zipCode")
+    @Column(name = "zip_Code")
     private int zipCode;
     @Column(name = "city")
     private String city;
-    @Column (name = "address")
+    @Column(name = "address")
     private String address;
+    @ManyToMany
+    @JoinTable(
+        schema = "sep3herskab",
+        name = "Center_Admins",
+        inverseJoinColumns = @JoinColumn(
+            name = "admin_username",
+            referencedColumnName = "username"
+        ),
+        joinColumns = @JoinColumn(
+            name = "center_id",
+            referencedColumnName = "id"
+        )
+    )
+    private List<UserEntity> admins;
 
     public CenterEntity() {
 
@@ -36,6 +49,7 @@ public class CenterEntity {
         this.zipCode = zipCode;
         this.city = city;
         this.address = address;
+        admins = new ArrayList<>();
     }
 
     public int getId() {
@@ -56,6 +70,14 @@ public class CenterEntity {
 
     public String getAddress() {
         return address;
+    }
+
+    public List<UserEntity> getAdmins() {
+        return admins;
+    }
+
+    public void addCenterAdmin(UserEntity user) {
+        admins.add(user);
     }
 
     @Override

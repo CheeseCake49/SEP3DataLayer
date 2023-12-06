@@ -2,10 +2,8 @@ package sep3datalayer.grpc;
 
 import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
-import org.apache.catalina.User;
 import org.lognet.springboot.grpc.GRpcService;
 import sep3datalayer.grpc.protobuf.*;
-import sep3datalayer.models.CenterEntity;
 import sep3datalayer.models.UserEntity;
 import sep3datalayer.services.UserServiceImpl;
 
