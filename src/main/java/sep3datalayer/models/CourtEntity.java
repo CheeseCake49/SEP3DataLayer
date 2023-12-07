@@ -3,7 +3,6 @@ package sep3datalayer.models;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import org.hibernate.annotations.*;
-import org.hibernate.engine.internal.Cascade;
 import sep3datalayer.grpc.protobuf.CourtGrpc;
 
 import java.util.Objects;

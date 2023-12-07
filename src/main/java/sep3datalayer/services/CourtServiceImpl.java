@@ -42,4 +42,9 @@ public class CourtServiceImpl implements CourtService {
     public List<CourtEntity> getByCenterID(int centerID) {
         return courtRepository.findAllByCenterId(centerID);
     }
+
+    @Override
+    public CourtEntity getById(int id) {
+        return courtRepository.findById(id);
+    }
 }

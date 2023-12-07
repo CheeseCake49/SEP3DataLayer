@@ -1,0 +1,33 @@
+syntax = "proto3";
+option java_multiple_files = true;
+package sep3datalayer.grpc.protobuf;
+option csharp_namespace = "sep3client.timeslot";
+
+message CreatingTimeSlot{
+  int32 courtId = 1;
+  int32 year = 2;
+  int32 month = 3;
+  int32 day = 4;
+  int32 startHour = 5;
+  int32 startMinute = 6;
+  int32 duration = 7;
+}
+
+message TimeSlotGrpc{
+  int32 id = 1;
+  int32 courtId = 2;
+  int32 year = 3;
+  int32 month = 4;
+  int32 day = 5;
+  int32 startHour = 6;
+  int32 startMinute = 7;
+  int32 duration = 8;
+}
+
+message TimeSlotsGrpc{
+  repeated TimeSlotGrpc timeSlots = 1;
+}
+
+service TimeSlotService{
+  rpc CreateTimeSlot (CreatingTimeSlot) returns (TimeSlotGrpc);
+}

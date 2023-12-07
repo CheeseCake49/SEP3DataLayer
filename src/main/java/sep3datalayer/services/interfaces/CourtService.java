@@ -12,4 +12,6 @@ public interface CourtService {
 
     List<CourtEntity> getByCenterID(int centerID);
 
+    CourtEntity getById(int id);
+
 }
