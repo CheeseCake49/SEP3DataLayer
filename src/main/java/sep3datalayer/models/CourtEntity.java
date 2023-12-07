@@ -57,6 +57,18 @@ public class CourtEntity {
         return courtSponsor;
     }
 
+    public void setCourtType(String courtType) {
+        this.courtType = courtType;
+    }
+
+    public void setCourtNumber(int courtNumber) {
+        this.courtNumber = courtNumber;
+    }
+
+    public void setCourtSponsor(String courtSponsor) {
+        this.courtSponsor = courtSponsor;
+    }
+
     @Override
     public String toString(){
         return "Court []";

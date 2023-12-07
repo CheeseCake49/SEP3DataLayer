@@ -63,6 +63,24 @@ public class CourtImpl extends CourtServiceGrpc.CourtServiceImplBase {
     }
 
     @Override
+    public void updateCourt(CourtGrpc court, StreamObserver<CourtGrpc> responseObserver) {
+        try {
+            CourtGrpc court1 = courtService.updateCourt(court).convertToCourtGrpc();
+
+            responseObserver.onNext(court1);
+            responseObserver.onCompleted();
+        } catch (Exception e) {
+            Status status;
+            if (e instanceof IllegalArgumentException) {
+                status = Status.FAILED_PRECONDITION.withDescription(e.getMessage());
+            } else {
+                status = Status.INTERNAL.withDescription(e.getMessage());
+            }
+            responseObserver.onError(status.asRuntimeException());
+        }
+    }
+
+    @Override
     public void getCourtsFromCenterId(CenterId centerID, StreamObserver<CourtList> responseObserver) {
         try {
             CourtList.Builder courtList = CourtList.newBuilder();
@@ -71,6 +89,29 @@ public class CourtImpl extends CourtServiceGrpc.CourtServiceImplBase {
             }
             responseObserver.onNext(courtList.build());
             responseObserver.onCompleted();
+        } catch (Exception e) {
+            Status status;
+            if (e instanceof IllegalArgumentException) {
+                status = Status.FAILED_PRECONDITION.withDescription(e.getMessage());
+            }
+            else {
+                status = Status.INTERNAL.withDescription(e.getMessage());
+            }
+            responseObserver.onError(status.asRuntimeException());
+        }
+    }
+
+    @Override
+    public void getByCenterIdAndCourtNumber(CourtDeletion court, StreamObserver<CourtGrpc> responseObserver) {
+        try {
+            CourtEntity courtEntity = courtService.getByCenterIdAndCourtNumber(court.getCenterId(), court.getCourtNumber());
+
+            CourtGrpc courtGrpc = CourtGrpc.newBuilder().setCenterId(courtEntity.getCenter().getId()).setCourtType(courtEntity.getCourtType())
+                    .setCourtNumber(courtEntity.getCourtNumber()).setCourtSponsor(courtEntity.getCourtSponsor()).build();
+
+            responseObserver.onNext(courtGrpc);
+            responseObserver.onCompleted();
+
         } catch (Exception e) {
             Status status;
             if (e instanceof IllegalArgumentException) {

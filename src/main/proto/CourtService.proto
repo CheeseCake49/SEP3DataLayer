@@ -33,4 +33,6 @@ service CourtService {
   rpc CreateCourt(CreatingCourt) returns (CourtGrpc);
   rpc GetCourtsFromCenterId(CenterId) returns (CourtList);
   rpc DeleteCourtFromCenterId(CourtDeletion) returns (google.protobuf.Empty);
+  rpc UpdateCourt(CourtGrpc) returns (CourtGrpc);
+  rpc GetByCenterIdAndCourtNumber(CourtDeletion) returns (CourtGrpc);
 }
