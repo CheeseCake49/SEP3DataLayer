@@ -1,9 +1,10 @@
 syntax = "proto3";
 option java_multiple_files = true;
 import "google/protobuf/empty.proto";
-import "UserService.proto";
 package sep3datalayer.grpc.protobuf;
-option csharp_namespace = "sep3client.center";
+option csharp_namespace = "sep3client.proto";
+
+// Centers
 
 message CreatingCenter {
   string name = 1;
@@ -38,4 +39,68 @@ service CenterService {
   rpc DeleteCenter(CenterId) returns (google.protobuf.Empty);
   rpc GetCenters(google.protobuf.Empty) returns (CenterList);
   rpc AddCenterAdmin(CenterAdmin) returns (UserUsername);
+}
+
+message CreatingUser {
+  string username = 1;
+  string password = 2;
+  string email = 3;
+  string name = 4;
+  string role = 5;
+}
+
+// Courts
+
+message CreatingCourt {
+  int32 centerId = 1;
+  string courtType = 2;
+  int32 courtNumber = 3;
+  string courtSponsor = 4;
+}
+
+message CourtGrpc {
+  int32 id = 1;
+  int32 centerId = 2;
+  string courtType = 3;
+  int32 courtNumber = 4;
+  string courtSponsor = 5;
+}
+
+message CourtList {
+  repeated CourtGrpc court = 1;
+}
+
+message CourtDeletion {
+  int32 centerId = 1;
+  int32 courtNumber = 2;
+}
+
+service CourtService {
+  rpc CreateCourt(CreatingCourt) returns (CourtGrpc);
+  rpc GetCourtsFromCenterId(CenterId) returns (CourtList);
+  rpc DeleteCourtFromCenterId(CourtDeletion) returns (google.protobuf.Empty);
+}
+
+// Users
+
+message UserGrpc {
+  string username = 1;
+  string password = 2;
+  string email = 3;
+  string name = 4;
+  string role = 5;
+}
+
+message UserList {
+  repeated UserGrpc user = 1;
+}
+
+message UserUsername {
+  string username = 1;
+}
+
+service UserService {
+  rpc CreateUser(CreatingUser) returns (UserGrpc);
+  rpc GetAllUsers(google.protobuf.Empty) returns (UserList);
+  rpc GetCenterAdmins(CenterId) returns (UserList);
 }

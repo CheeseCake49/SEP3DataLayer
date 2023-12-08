@@ -57,4 +57,23 @@ public class UserImpl extends UserServiceGrpc.UserServiceImplBase {
             responseObserver.onError(status.asRuntimeException());
         }
     }
+
+    @Override
+    public void getCenterAdmins(CenterId request, StreamObserver<UserList> responseObserver) {
+        try {
+            UserList.Builder userList = UserList.newBuilder();
+            for (UserEntity user : userService.getCenterAdmins(request.getId())) {
+                userList.addUser(user.convertToUserGrpc());
+            }
+            responseObserver.onNext(userList.build());
+            responseObserver.onCompleted();
+        } catch (Exception e) {
+            Status status;
+            if (e instanceof IllegalArgumentException)
+                status = Status.FAILED_PRECONDITION.withDescription(e.getMessage());
+            else
+                status = Status.INTERNAL.withDescription(e.getMessage());
+            responseObserver.onError(status.asRuntimeException());
+        }
+    }
 }
