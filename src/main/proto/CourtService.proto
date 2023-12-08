@@ -20,8 +20,19 @@ message CourtGrpc {
   string courtSponsor = 5;
 }
 
+message UpdatingCourt {
+  int32 id = 1;
+  string courtType = 2;
+  int32 courtNumber = 3;
+  string courtSponsor = 5;
+}
+
 message CourtList {
   repeated CourtGrpc court = 1;
+}
+
+message CourtId {
+  int32 id = 1;
 }
 
 message CourtDeletion {
@@ -33,6 +44,7 @@ service CourtService {
   rpc CreateCourt(CreatingCourt) returns (CourtGrpc);
   rpc GetCourtsFromCenterId(CenterId) returns (CourtList);
   rpc DeleteCourtFromCenterId(CourtDeletion) returns (google.protobuf.Empty);
-  rpc UpdateCourt(CourtGrpc) returns (CourtGrpc);
+  rpc UpdateCourt(UpdatingCourt) returns (CourtGrpc);
   rpc GetByCenterIdAndCourtNumber(CourtDeletion) returns (CourtGrpc);
+  rpc GetById(CourtId) returns (CourtGrpc);
 }

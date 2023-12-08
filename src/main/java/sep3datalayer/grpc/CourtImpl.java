@@ -5,9 +5,12 @@ import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
 import org.lognet.springboot.grpc.GRpcService;
 import sep3datalayer.grpc.protobuf.*;
+import sep3datalayer.models.CenterEntity;
 import sep3datalayer.models.CourtEntity;
 import sep3datalayer.services.CenterServiceImpl;
 import sep3datalayer.services.CourtServiceImpl;
+
+import javax.naming.NameNotFoundException;
 
 
 @GRpcService
@@ -63,7 +66,7 @@ public class CourtImpl extends CourtServiceGrpc.CourtServiceImplBase {
     }
 
     @Override
-    public void updateCourt(CourtGrpc court, StreamObserver<CourtGrpc> responseObserver) {
+    public void updateCourt(UpdatingCourt court, StreamObserver<CourtGrpc> responseObserver) {
         try {
             CourtGrpc court1 = courtService.updateCourt(court).convertToCourtGrpc();
 
@@ -106,7 +109,10 @@ public class CourtImpl extends CourtServiceGrpc.CourtServiceImplBase {
         try {
             CourtEntity courtEntity = courtService.getByCenterIdAndCourtNumber(court.getCenterId(), court.getCourtNumber());
 
-            CourtGrpc courtGrpc = CourtGrpc.newBuilder().setCenterId(courtEntity.getCenter().getId()).setCourtType(courtEntity.getCourtType())
+            if (courtEntity == null)
+                throw new IllegalArgumentException("No court matching params");
+
+            CourtGrpc courtGrpc = CourtGrpc.newBuilder().setId(courtEntity.getId()).setCenterId(courtEntity.getCenter().getId()).setCourtType(courtEntity.getCourtType())
                     .setCourtNumber(courtEntity.getCourtNumber()).setCourtSponsor(courtEntity.getCourtSponsor()).build();
 
             responseObserver.onNext(courtGrpc);
@@ -118,6 +124,24 @@ public class CourtImpl extends CourtServiceGrpc.CourtServiceImplBase {
                 status = Status.FAILED_PRECONDITION.withDescription(e.getMessage());
             }
             else {
+                status = Status.INTERNAL.withDescription(e.getMessage());
+            }
+            responseObserver.onError(status.asRuntimeException());
+        }
+    }
+
+    @Override
+    public void getById(CourtId courtId, StreamObserver<CourtGrpc> responseObserver) {
+        try {
+            CourtGrpc courtGrpc = courtService.getById(courtId.getId()).convertToCourtGrpc();
+
+            responseObserver.onNext(courtGrpc);
+            responseObserver.onCompleted();
+        } catch (Exception e) {
+            Status status;
+            if (e instanceof IllegalArgumentException) {
+                status = Status.FAILED_PRECONDITION.withDescription(e.getMessage());
+            } else {
                 status = Status.INTERNAL.withDescription(e.getMessage());
             }
             responseObserver.onError(status.asRuntimeException());

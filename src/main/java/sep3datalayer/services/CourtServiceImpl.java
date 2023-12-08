@@ -2,7 +2,9 @@ package sep3datalayer.services;
 
 import org.springframework.stereotype.Service;
 import sep3datalayer.grpc.protobuf.CourtGrpc;
+import sep3datalayer.grpc.protobuf.CreatingCourt;
 import sep3datalayer.grpc.protobuf.UpdatingCenter;
+import sep3datalayer.grpc.protobuf.UpdatingCourt;
 import sep3datalayer.models.CenterEntity;
 import sep3datalayer.models.CourtEntity;
 import sep3datalayer.repos.CourtRepository;
@@ -47,8 +49,13 @@ public class CourtServiceImpl implements CourtService {
     }
 
     @Override
-    public CourtEntity updateCourt(CourtGrpc court) {
-        CourtEntity courtEntity = getByCenterIdAndCourtNumber(court.getCenterId(), court.getCourtNumber());
+    public CourtEntity getById(int id) {
+        return courtRepository.findById(id).orElseThrow();
+    }
+
+    @Override
+    public CourtEntity updateCourt(UpdatingCourt court) {
+        CourtEntity courtEntity = getById(court.getId());
 
         if (courtEntity == null) {
             throw new IllegalArgumentException("Court is null");
