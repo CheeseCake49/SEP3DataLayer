@@ -23,14 +23,18 @@ public class TimeSlotEntity {
     @Column(name = "duration")
     private int duration;
 
+    @Column(name = "is_booked")
+    private boolean isBooked;
+
     public TimeSlotEntity(){
 
     }
 
-    public TimeSlotEntity(CourtEntity court, LocalDateTime startTime, int duration) {
+    public TimeSlotEntity(CourtEntity court, LocalDateTime startTime, int duration, boolean isBooked) {
         this.court = court;
         this.startTime = startTime;
         this.duration = duration;
+        this.isBooked = false;
     }
 
     public int getId() {
@@ -66,6 +70,14 @@ public class TimeSlotEntity {
         this.duration = duration;
     }
 
+    public boolean isBooked() {
+        return isBooked;
+    }
+
+    public void setBooked(boolean booked) {
+        isBooked = booked;
+    }
+
     @Override
     public String toString() {
         return "TimeSlotEntity{" +
@@ -73,6 +85,7 @@ public class TimeSlotEntity {
                 ", court=" + court +
                 ", startTime=" + startTime +
                 ", duration=" + duration +
+                ", isBooked=" + isBooked +
                 '}';
     }
 
@@ -81,12 +94,12 @@ public class TimeSlotEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TimeSlotEntity that = (TimeSlotEntity) o;
-        return id == that.id && duration == that.duration && Objects.equals(court, that.court) && Objects.equals(startTime, that.startTime);
+        return id == that.id && duration == that.duration && Objects.equals(court, that.court) && Objects.equals(startTime, that.startTime) && Objects.equals(isBooked, that.isBooked);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, court, startTime, duration);
+        return Objects.hash(id, court, startTime, duration, isBooked);
     }
 
     public TimeSlotGrpc convertToTimeSlotGrpc() {
@@ -99,6 +112,7 @@ public class TimeSlotEntity {
         timeSlot.setStartHour(this.startTime.getHour());
         timeSlot.setStartMinute(this.startTime.getMinute());
         timeSlot.setDuration(this.duration);
+        timeSlot.setIsBooked(this.isBooked);
         return timeSlot.build();
     }
 }

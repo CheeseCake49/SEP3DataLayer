@@ -23,7 +23,7 @@ public class TimeSlotImpl extends TimeSlotServiceGrpc.TimeSlotServiceImplBase {
     public void createTimeSlot(CreatingTimeSlot timeSlot, StreamObserver<TimeSlotGrpc> responseObserver) {
         try{
         TimeSlotEntity timeSlotCreated = timeSlotService.addTimeSlot(timeSlot.getCourtId(), timeSlot.getYear(),
-                timeSlot.getMonth(), timeSlot.getDay(), timeSlot.getStartHour(), timeSlot.getStartMinute(), timeSlot.getDuration());
+                timeSlot.getMonth(), timeSlot.getDay(), timeSlot.getStartHour(), timeSlot.getStartMinute(), timeSlot.getDuration(), timeSlot.getIsBooked());
         TimeSlotGrpc timeSlot1 = timeSlotCreated.convertToTimeSlotGrpc();
 
 

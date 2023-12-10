@@ -20,8 +20,8 @@ public class TimeSlotServiceImpl implements TimeSlotService {
     }
 
     @Override
-    public TimeSlotEntity addTimeSlot(int courtId, int year, int month, int day, int hour, int minutes, int duration) {
-        return timeSlotRepository.save(new TimeSlotEntity(courtRepository.findById(courtId), convertToDate(year, month, day, hour, minutes), duration));
+    public TimeSlotEntity addTimeSlot(int courtId, int year, int month, int day, int hour, int minutes, int duration, boolean isBooked) {
+        return timeSlotRepository.save(new TimeSlotEntity(courtRepository.findById(courtId), convertToDate(year, month, day, hour, minutes), duration, isBooked));
     }
 
     @Override
