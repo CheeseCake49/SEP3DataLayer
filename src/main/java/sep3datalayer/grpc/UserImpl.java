@@ -4,6 +4,7 @@ import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
 import org.lognet.springboot.grpc.GRpcService;
 import sep3datalayer.grpc.protobuf.*;
+import sep3datalayer.models.CenterEntity;
 import sep3datalayer.models.UserEntity;
 import sep3datalayer.services.UserServiceImpl;
 
@@ -66,6 +67,25 @@ public class UserImpl extends UserServiceGrpc.UserServiceImplBase {
                 userList.addUser(user.convertToUserGrpc());
             }
             responseObserver.onNext(userList.build());
+            responseObserver.onCompleted();
+        } catch (Exception e) {
+            Status status;
+            if (e instanceof IllegalArgumentException)
+                status = Status.FAILED_PRECONDITION.withDescription(e.getMessage());
+            else
+                status = Status.INTERNAL.withDescription(e.getMessage());
+            responseObserver.onError(status.asRuntimeException());
+        }
+    }
+
+    @Override
+    public void getAdminnedCenters(UserUsername request, StreamObserver<CenterAdminList> responseObserver) {
+        try {
+            CenterAdminList.Builder centerList = CenterAdminList.newBuilder();
+            for (CenterEntity center : userService.getAdminnedCenters(request.getUsername())) {
+                centerList.addAdmins(center.convertToCenterAdmin(request.getUsername()));
+            }
+            responseObserver.onNext(centerList.build());
             responseObserver.onCompleted();
         } catch (Exception e) {
             Status status;

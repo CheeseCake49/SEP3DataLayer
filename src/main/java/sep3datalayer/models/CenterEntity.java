@@ -3,6 +3,7 @@ package sep3datalayer.models;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.NaturalIdCache;
+import sep3datalayer.grpc.protobuf.CenterAdmin;
 import sep3datalayer.grpc.protobuf.CenterGrpc;
 
 import java.util.*;
@@ -92,6 +93,13 @@ public class CenterEntity {
         builder.setZipCode(this.zipCode);
         builder.setCity(this.city);
         builder.setAddress(this.address);
+        return builder.build();
+    }
+
+    public CenterAdmin convertToCenterAdmin(String username) {
+        CenterAdmin.Builder builder = CenterAdmin.newBuilder();
+        builder.setCenterId(id);
+        builder.setUsername(username);
         return builder.build();
     }
 

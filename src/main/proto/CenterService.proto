@@ -34,19 +34,15 @@ message CenterAdmin {
   string username = 2;
 }
 
+message CenterAdminList {
+  repeated CenterAdmin admins = 1;
+}
+
 service CenterService {
   rpc CreateCenter(CreatingCenter) returns (CenterGrpc);
   rpc DeleteCenter(CenterId) returns (google.protobuf.Empty);
   rpc GetCenters(google.protobuf.Empty) returns (CenterList);
   rpc AddCenterAdmin(CenterAdmin) returns (UserUsername);
-}
-
-message CreatingUser {
-  string username = 1;
-  string password = 2;
-  string email = 3;
-  string name = 4;
-  string role = 5;
 }
 
 // Courts
@@ -83,6 +79,14 @@ service CourtService {
 
 // Users
 
+message CreatingUser {
+  string username = 1;
+  string password = 2;
+  string email = 3;
+  string name = 4;
+  string role = 5;
+}
+
 message UserGrpc {
   string username = 1;
   string password = 2;
@@ -103,4 +107,5 @@ service UserService {
   rpc CreateUser(CreatingUser) returns (UserGrpc);
   rpc GetAllUsers(google.protobuf.Empty) returns (UserList);
   rpc GetCenterAdmins(CenterId) returns (UserList);
+  rpc GetAdminnedCenters(UserUsername) returns (CenterAdminList);
 }

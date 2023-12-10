@@ -1,6 +1,7 @@
 package sep3datalayer.services;
 
 import org.springframework.stereotype.Service;
+import sep3datalayer.models.CenterEntity;
 import sep3datalayer.models.UserEntity;
 import sep3datalayer.repos.CenterRepository;
 import sep3datalayer.repos.UserRepository;
@@ -37,6 +38,11 @@ public class UserServiceImpl implements UserService {
     @Override public List<UserEntity> getCenterAdmins(int centerId)
     {
         return userRepository.findAllByCentersContains(centerRepository.findById(centerId).orElseThrow());
+    }
+
+    @Override public List<CenterEntity> getAdminnedCenters(String username)
+    {
+        return userRepository.findByUsername(username).getAdminnedCenters();
     }
 
     @Override
