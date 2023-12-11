@@ -13,4 +13,5 @@ public interface CenterService {
     CenterEntity getById(int id);
     void deleteCenter(int id);
     void updateCenter(UpdatingCenter center);
+    String addCenterAdmin(int centerId, String username);
 }

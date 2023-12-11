@@ -115,4 +115,22 @@ import sep3datalayer.services.CenterServiceImpl;
             responseObserver.onError(status.asRuntimeException());
         }
     }
+
+    @Override
+    public void addCenterAdmin(CenterAdmin request, StreamObserver<UserUsername> responseObserver) {
+        try {
+            String created = centerService.addCenterAdmin(request.getCenterId(), request.getUsername());
+
+            responseObserver.onNext(UserUsername.newBuilder().setUsername(created).build());
+            responseObserver.onCompleted();
+        } catch (Exception e) {
+            Status status;
+            if (e instanceof IllegalArgumentException) {
+                status = Status.FAILED_PRECONDITION.withDescription(e.getMessage());
+            } else {
+                status = Status.INTERNAL.withDescription(e.getMessage());
+            }
+            responseObserver.onError(status.asRuntimeException());
+        }
+    }
 }

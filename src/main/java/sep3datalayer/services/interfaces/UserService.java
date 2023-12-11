@@ -10,4 +10,6 @@ public interface UserService {
     void addUser(UserEntity userEntityRecord);
     List<UserEntity> getAllUsers();
     UserEntity getByUsername(String username);
+    List<UserEntity> getCenterAdmins(int centerId);
+    List<CenterEntity> getAdminnedCenters(String username);
 }
