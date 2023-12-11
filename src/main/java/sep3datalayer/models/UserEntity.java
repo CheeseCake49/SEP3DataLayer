@@ -61,6 +61,9 @@ public class UserEntity {
     public String getRole() {
         return role;
     }
+    public void setRole(String role) {
+        this.role = role;
+    }
     public List<CenterEntity> getAdminnedCenters() {
         return centers;
     }

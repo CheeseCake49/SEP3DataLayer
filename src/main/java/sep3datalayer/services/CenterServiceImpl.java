@@ -58,7 +58,9 @@ import java.util.ArrayList;
         CenterEntity center = centerRepository.findById(centerId).orElseThrow();
         UserEntity user = userRepository.findByUsername(username);
         center.addCenterAdmin(user);
+        user.setRole("Customer");
         centerRepository.save(center);
+        userRepository.save(user);
         return user.getUsername();
     }
 }
