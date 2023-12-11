@@ -25,6 +25,14 @@ message CenterId {
   int32 id = 1;
 }
 
+message UpdatingCenter {
+  int32 id = 1;
+  string name = 2;
+  int32 zipCode = 3;
+  string city = 4;
+  string address = 5;
+}
+
 message CenterList {
   repeated CenterGrpc center = 1;
 }
@@ -42,6 +50,8 @@ service CenterService {
   rpc CreateCenter(CreatingCenter) returns (CenterGrpc);
   rpc DeleteCenter(CenterId) returns (google.protobuf.Empty);
   rpc GetCenters(google.protobuf.Empty) returns (CenterList);
+  rpc UpdateCenter(UpdatingCenter) returns (CenterGrpc);
+  rpc GetById(CenterId) returns (CenterGrpc);
   rpc AddCenterAdmin(CenterAdmin) returns (UserUsername);
 }
 
@@ -62,6 +72,13 @@ message CourtGrpc {
   string courtSponsor = 5;
 }
 
+message UpdatingCourt {
+  int32 id = 1;
+  string courtType = 2;
+  int32 courtNumber = 3;
+  string courtSponsor = 4;
+}
+
 message CourtList {
   repeated CourtGrpc court = 1;
 }
@@ -71,10 +88,17 @@ message CourtDeletion {
   int32 courtNumber = 2;
 }
 
+message CourtId {
+  int32 id = 1;
+}
+
 service CourtService {
   rpc CreateCourt(CreatingCourt) returns (CourtGrpc);
   rpc GetCourtsFromCenterId(CenterId) returns (CourtList);
   rpc DeleteCourtFromCenterId(CourtDeletion) returns (google.protobuf.Empty);
+  rpc UpdateCourt(UpdatingCourt) returns (CourtGrpc);
+  rpc GetByCenterIdAndCourtNumber(CourtDeletion) returns (CourtGrpc);
+  rpc GetById(CourtId) returns (CourtGrpc);
 }
 
 // Users
