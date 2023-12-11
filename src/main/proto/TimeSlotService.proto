@@ -30,11 +30,11 @@ message TimeSlotList{
   repeated TimeSlotGrpc timeSlots = 1;
 }
 
-message courtId{
+message CourtId{
   int32 courtId = 1;
 }
 
 service TimeSlotService{
   rpc CreateTimeSlot (CreatingTimeSlot) returns (TimeSlotGrpc);
-  rpc GetTimeSlotsFromCourtId (courtId) returns (TimeSlotList);
+  rpc GetTimeSlotsFromCourtId (CourtId) returns (TimeSlotList);
 }

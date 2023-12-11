@@ -7,6 +7,7 @@ import sep3datalayer.repos.TimeSlotRepository;
 import sep3datalayer.services.interfaces.TimeSlotService;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class TimeSlotServiceImpl implements TimeSlotService {
@@ -25,8 +26,8 @@ public class TimeSlotServiceImpl implements TimeSlotService {
     }
 
     @Override
-    public void getById(int id) {
-        timeSlotRepository.findById(id);
+    public List<TimeSlotEntity> getByCourtId(int courtId) {
+        return timeSlotRepository.findAllByCourtIdOrderByStartTime(courtId);
     }
 
     public LocalDateTime convertToDate(int year, int month, int day, int hour, int minutes){
