@@ -50,7 +50,7 @@ public class CourtServiceImpl implements CourtService {
 
     @Override
     public CourtEntity getById(int id) {
-        return courtRepository.findById(id).orElseThrow();
+        return courtRepository.findById(id);
     }
 
     @Override

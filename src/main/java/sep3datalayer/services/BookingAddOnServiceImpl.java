@@ -1,10 +1,12 @@
 package sep3datalayer.services;
 
+import org.springframework.stereotype.Service;
 import sep3datalayer.models.Booking.BookingAddOnEntity;
 import sep3datalayer.repos.Booking.BookingAddOnRepository;
 import sep3datalayer.repos.Booking.BookingRepository;
 import sep3datalayer.services.interfaces.BookingAddOnService;
 
+@Service
 public class BookingAddOnServiceImpl implements BookingAddOnService {
 
     private final BookingAddOnRepository bookingAddOnRepository;

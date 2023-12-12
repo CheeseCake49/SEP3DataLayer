@@ -16,6 +16,4 @@ public interface CourtService {
     CourtEntity updateCourt(UpdatingCourt court);
     CourtEntity getById(int id);
 
-    CourtEntity getById(int id);
-
 }

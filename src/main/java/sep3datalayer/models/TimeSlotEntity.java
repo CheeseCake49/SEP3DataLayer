@@ -2,8 +2,10 @@ package sep3datalayer.models;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.NaturalIdCache;
 import sep3datalayer.grpc.protobuf.TimeSlotGrpc;
+import sep3datalayer.models.Booking.BookingEntity;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -26,15 +28,22 @@ public class TimeSlotEntity {
     @Column(name = "is_booked")
     private boolean isBooked;
 
+    @Column(name = "price")
+    private int price;
+
+    @ManyToOne @JoinColumn(name = "booking_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private BookingEntity booking;
+
     public TimeSlotEntity(){
 
     }
 
-    public TimeSlotEntity(CourtEntity court, LocalDateTime startTime, int duration, boolean isBooked) {
+    public TimeSlotEntity(CourtEntity court, LocalDateTime startTime, int duration, boolean isBooked, int price) {
         this.court = court;
         this.startTime = startTime;
         this.duration = duration;
         this.isBooked = false;
+        this.price = price;
     }
 
     public int getId() {
@@ -78,6 +87,14 @@ public class TimeSlotEntity {
         isBooked = booked;
     }
 
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
     @Override
     public String toString() {
         return "TimeSlotEntity{" +
@@ -113,6 +130,7 @@ public class TimeSlotEntity {
         timeSlot.setStartMinute(this.startTime.getMinute());
         timeSlot.setDuration(this.duration);
         timeSlot.setIsBooked(this.isBooked);
+        timeSlot.setPrice(this.price);
         return timeSlot.build();
     }
 }

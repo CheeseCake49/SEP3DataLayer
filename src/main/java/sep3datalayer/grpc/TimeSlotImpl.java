@@ -20,7 +20,7 @@ public class TimeSlotImpl extends TimeSlotServiceGrpc.TimeSlotServiceImplBase {
     public void createTimeSlot(CreatingTimeSlot timeSlot, StreamObserver<TimeSlotGrpc> responseObserver) {
         try{
         TimeSlotEntity timeSlotCreated = timeSlotService.addTimeSlot(timeSlot.getCourtId(), timeSlot.getYear(),
-                timeSlot.getMonth(), timeSlot.getDay(), timeSlot.getStartHour(), timeSlot.getStartMinute(), timeSlot.getDuration(), timeSlot.getIsBooked());
+                timeSlot.getMonth(), timeSlot.getDay(), timeSlot.getStartHour(), timeSlot.getStartMinute(), timeSlot.getDuration(), timeSlot.getIsBooked(), timeSlot.getPrice());
         TimeSlotGrpc timeSlot1 = timeSlotCreated.convertToTimeSlotGrpc();
 
 
@@ -42,7 +42,7 @@ public class TimeSlotImpl extends TimeSlotServiceGrpc.TimeSlotServiceImplBase {
     public void getTimeSlotsFromCourtId(CourtId courtId, StreamObserver<TimeSlotList> responseObserver) {
         try {
             TimeSlotList.Builder timeSlotList = TimeSlotList.newBuilder();
-            for (TimeSlotEntity timeSlot : timeSlotService.getByCourtId(courtId.getCourtId())) {
+            for (TimeSlotEntity timeSlot : timeSlotService.getByCourtId(courtId.getId())) {
                 timeSlotList.addTimeSlots(timeSlot.convertToTimeSlotGrpc());
             }
             responseObserver.onNext(timeSlotList.build());

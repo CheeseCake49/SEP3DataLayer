@@ -1,18 +1,18 @@
 package sep3datalayer.services;
 
+import org.springframework.stereotype.Service;
 import sep3datalayer.models.Booking.BookingEntity;
 import sep3datalayer.repos.Booking.BookingRepository;
 import sep3datalayer.repos.UserRepository;
 import sep3datalayer.services.interfaces.BookingService;
 
+@Service
 public class BookingServiceImpl implements BookingService {
 
     private final BookingRepository bookingRepository;
-    private final UserRepository userRepository;
 
-    public BookingServiceImpl(BookingRepository bookingRepository, UserRepository userRepository) {
+    public BookingServiceImpl(BookingRepository bookingRepository) {
         this.bookingRepository = bookingRepository;
-        this.userRepository = userRepository;
     }
 
     @Override

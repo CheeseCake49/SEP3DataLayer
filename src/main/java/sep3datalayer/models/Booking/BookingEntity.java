@@ -5,8 +5,11 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.*;
 import org.hibernate.annotations.NaturalIdCache;
 import sep3datalayer.grpc.protobuf.BookingGrpc;
+import sep3datalayer.grpc.protobuf.TimeSlotList;
+import sep3datalayer.models.TimeSlotEntity;
 import sep3datalayer.models.UserEntity;
 
+import java.util.List;
 import java.util.Objects;
 
 @Entity(name = "Booking")
@@ -14,7 +17,7 @@ import java.util.Objects;
 @NaturalIdCache
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class BookingEntity {
-   @Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
@@ -24,14 +27,17 @@ public class BookingEntity {
    @Column(name = "total_price")
    private int totalPrice;
 
+   @OneToMany (fetch = FetchType.LAZY) @JoinColumn(name = "booking_id") @OnDelete(action = OnDeleteAction.CASCADE)
+   private List<TimeSlotEntity> timeSlotEntities;
 
    public BookingEntity() {
 
    }
 
-    public BookingEntity(UserEntity username, int totalPrice) {
+    public BookingEntity(UserEntity username, int totalPrice, List<TimeSlotEntity> timeSlotEntities) {
          this.username = username;
          this.totalPrice = totalPrice;
+         this.timeSlotEntities = timeSlotEntities;
     }
 
     public int getId() {
@@ -56,6 +62,14 @@ public class BookingEntity {
 
     public void setTotalPrice(int totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public List<TimeSlotEntity> getTimeSlotEntities() {
+        return timeSlotEntities;
+    }
+
+    public void setTimeSlotEntities(List<TimeSlotEntity> timeSlotEntities) {
+        this.timeSlotEntities = timeSlotEntities;
     }
 
     @Override
@@ -85,6 +99,11 @@ public class BookingEntity {
          builder.setId(this.id);
             builder.setUsername(this.username.getUsername());
             builder.setTotalPrice(this.totalPrice);
+            TimeSlotList.Builder timeSlotList = TimeSlotList.newBuilder();
+            for (TimeSlotEntity timeSlot : timeSlotEntities) {
+                timeSlotList.addTimeSlots(timeSlot.convertToTimeSlotGrpc());
+            }
+            builder.setTimeSlotList(timeSlotList);
             return builder.build();
     }
 }

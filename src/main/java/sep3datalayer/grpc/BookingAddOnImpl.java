@@ -2,6 +2,7 @@ package sep3datalayer.grpc;
 
 import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
+import org.lognet.springboot.grpc.GRpcService;
 import sep3datalayer.grpc.protobuf.BookingAddOnGrpc;
 import sep3datalayer.grpc.protobuf.BookingAddOnServiceGrpc;
 import sep3datalayer.grpc.protobuf.CreatingBookingAddOn;
@@ -9,6 +10,7 @@ import sep3datalayer.models.Booking.BookingAddOnEntity;
 import sep3datalayer.services.BookingAddOnServiceImpl;
 import sep3datalayer.services.BookingServiceImpl;
 
+@GRpcService
 public class BookingAddOnImpl extends BookingAddOnServiceGrpc.BookingAddOnServiceImplBase{
 
     private final BookingAddOnServiceImpl bookingAddOnService;

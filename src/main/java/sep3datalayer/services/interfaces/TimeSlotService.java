@@ -7,6 +7,7 @@ import java.util.List;
 
 @Service
 public interface TimeSlotService {
-    TimeSlotEntity addTimeSlot(int courtId, int year, int month, int day, int hour, int minutes, int duration, boolean isBooked);
+    TimeSlotEntity addTimeSlot(int courtId, int year, int month, int day, int hour, int minutes, int duration, boolean isBooked, int price);
     List<TimeSlotEntity> getByCourtId(int courtId);
+    TimeSlotEntity getById(int id);
 }
