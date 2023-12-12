@@ -5,7 +5,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.NaturalIdCache;
 import sep3datalayer.grpc.protobuf.UserGrpc;
 
-import java.util.Objects;
+import java.util.*;
 
 @Entity(name = "User")
 @Table(name = "user", schema = "sep3herskab")
@@ -24,6 +24,8 @@ public class UserEntity {
     private String name;
     @Column(name = "role")
     private String role;
+    @ManyToMany(mappedBy = "admins")
+    private List<CenterEntity> centers;
 
     public UserEntity() {
 
@@ -35,6 +37,7 @@ public class UserEntity {
         this.email = email;
         this.name = name;
         this.role = role;
+        centers = new ArrayList<>();
     }
 
 
@@ -56,6 +59,12 @@ public class UserEntity {
 
     public String getRole() {
         return role;
+    }
+    public void setRole(String role) {
+        this.role = role;
+    }
+    public List<CenterEntity> getAdminnedCenters() {
+        return centers;
     }
 
     @Override

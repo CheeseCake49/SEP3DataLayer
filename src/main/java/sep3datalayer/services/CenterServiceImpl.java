@@ -1,17 +1,22 @@
 package sep3datalayer.services;
 
 import org.springframework.stereotype.Service;
+import sep3datalayer.grpc.protobuf.UpdatingCenter;
 import sep3datalayer.models.CenterEntity;
+import sep3datalayer.models.UserEntity;
 import sep3datalayer.repos.CenterRepository;
+import sep3datalayer.repos.UserRepository;
 import sep3datalayer.services.interfaces.CenterService;
 import java.util.ArrayList;
 
 @Service public class CenterServiceImpl implements CenterService {
 
     private final CenterRepository centerRepository;
+    private final UserRepository userRepository;
 
-    public CenterServiceImpl(CenterRepository centerRepository) {
+    public CenterServiceImpl(CenterRepository centerRepository, UserRepository userRepository) {
         this.centerRepository = centerRepository;
+        this.userRepository = userRepository;
     }
 
 
@@ -41,5 +46,32 @@ import java.util.ArrayList;
         return centerRepository.findById(id).orElseThrow();
     }
 
+    @Override
+    public void deleteCenter(int id) {
+        if (getById(id) == null) {
+            throw new IllegalArgumentException("Center not found!");
+        }
+        centerRepository.deleteById(id);
+    }
 
+    @Override
+    public void updateCenter(UpdatingCenter center) {
+        CenterEntity centerEntity = getById(center.getId());
+        centerEntity.setName(center.getName());
+        centerEntity.setZipCode(center.getZipCode());
+        centerEntity.setCity(center.getCity());
+        centerEntity.setAddress(center.getAddress());
+
+        centerRepository.save(centerEntity);
+    }
+    @Override
+    public String addCenterAdmin(int centerId, String username) {
+        CenterEntity center = centerRepository.findById(centerId).orElseThrow();
+        UserEntity user = userRepository.findByUsername(username);
+        center.addCenterAdmin(user);
+        user.setRole("Customer");
+        centerRepository.save(center);
+        userRepository.save(user);
+        return user.getUsername();
+    }
 }
