@@ -6,13 +6,11 @@ import org.lognet.springboot.grpc.GRpcService;
 import sep3datalayer.grpc.protobuf.BookingGrpc;
 import sep3datalayer.grpc.protobuf.BookingServiceGrpc;
 import sep3datalayer.grpc.protobuf.CreatingBooking;
-import sep3datalayer.grpc.protobuf.TimeSlotGrpc;
 import sep3datalayer.models.Booking.BookingEntity;
 import sep3datalayer.models.TimeSlotEntity;
 import sep3datalayer.repos.TimeSlotRepository;
-import sep3datalayer.services.BookingServiceImpl;
-import sep3datalayer.services.TimeSlotServiceImpl;
-import sep3datalayer.services.UserServiceImpl;
+import sep3datalayer.services.interfaces.BookingService;
+import sep3datalayer.services.interfaces.UserService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,12 +18,12 @@ import java.util.List;
 @GRpcService
 public class BookingImpl extends BookingServiceGrpc.BookingServiceImplBase {
 
-    private final BookingServiceImpl bookingService;
-    private final UserServiceImpl userService;
+    private final BookingService bookingService;
+    private final UserService userService;
     private final TimeSlotRepository timeSlotRepository;
 
 
-    public BookingImpl(BookingServiceImpl bookingService, UserServiceImpl userService, TimeSlotRepository timeSlotRepository) {
+    public BookingImpl(BookingService bookingService, UserService userService, TimeSlotRepository timeSlotRepository) {
         this.bookingService = bookingService;
         this.userService = userService;
         this.timeSlotRepository = timeSlotRepository;

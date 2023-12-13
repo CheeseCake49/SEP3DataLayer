@@ -196,6 +196,10 @@ message CreatingTimeSlot{
   int32 price = 9;
 }
 
+message CreatingTimeSlotList{
+  repeated CreatingTimeSlot timeSlots = 1;
+}
+
 message TimeSlotGrpc{
   int32 id = 1;
   int32 courtId = 2;
@@ -215,5 +219,6 @@ message TimeSlotList{
 
 service TimeSlotService{
   rpc CreateTimeSlot(CreatingTimeSlot) returns (TimeSlotGrpc);
+  rpc CreateManyTimeSlots(CreatingTimeSlotList) returns (TimeSlotList);
   rpc GetTimeSlotsFromCourtId(CourtId) returns (TimeSlotList);
 }

@@ -7,6 +7,7 @@ import sep3datalayer.grpc.protobuf.*;
 import sep3datalayer.models.TimeSlotEntity;
 import sep3datalayer.services.TimeSlotServiceImpl;
 
+
 @GRpcService
 public class TimeSlotImpl extends TimeSlotServiceGrpc.TimeSlotServiceImplBase {
 
@@ -23,7 +24,6 @@ public class TimeSlotImpl extends TimeSlotServiceGrpc.TimeSlotServiceImplBase {
                 timeSlot.getMonth(), timeSlot.getDay(), timeSlot.getStartHour(), timeSlot.getStartMinute(), timeSlot.getDuration(), timeSlot.getIsBooked(), timeSlot.getPrice());
         TimeSlotGrpc timeSlot1 = timeSlotCreated.convertToTimeSlotGrpc();
 
-
         responseObserver.onNext(timeSlot1);
         responseObserver.onCompleted();
         } catch (Exception e) {
@@ -36,6 +36,33 @@ public class TimeSlotImpl extends TimeSlotServiceGrpc.TimeSlotServiceImplBase {
             }
             responseObserver.onError(status.asRuntimeException());
         }
+    }
+
+    @Override
+    public void createManyTimeSlots(CreatingTimeSlotList request, StreamObserver<TimeSlotList> responseObserver) {
+        try {
+            TimeSlotList.Builder timeSlotList = TimeSlotList.newBuilder();
+            Runnable createTimeSlots = () -> {
+                for (CreatingTimeSlot timeSlot : request.getTimeSlotsList())
+                {
+                    timeSlotService.addTimeSlot(timeSlot.getCourtId(), timeSlot.getYear(), timeSlot.getMonth(), timeSlot.getDay(), timeSlot.getStartHour(), timeSlot.getStartMinute(), timeSlot.getDuration(), timeSlot.getIsBooked(), timeSlot.getPrice()).convertToTimeSlotGrpc();
+                }
+            };
+
+            new Thread(createTimeSlots).start();
+
+            responseObserver.onNext(timeSlotList.build());
+            responseObserver.onCompleted();
+        } catch (Exception e) {
+        Status status;
+        if (e instanceof IllegalArgumentException) {
+            status = Status.FAILED_PRECONDITION.withDescription(e.getMessage());
+        }
+        else {
+            status = Status.INTERNAL.withDescription(e.getMessage());
+        }
+        responseObserver.onError(status.asRuntimeException());
+    }
     }
 
     @Override
