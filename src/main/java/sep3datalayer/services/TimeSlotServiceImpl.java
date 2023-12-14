@@ -1,6 +1,7 @@
 package sep3datalayer.services;
 
 import org.springframework.stereotype.Service;
+import sep3datalayer.models.CourtEntity;
 import sep3datalayer.models.TimeSlotEntity;
 import sep3datalayer.repos.CourtRepository;
 import sep3datalayer.repos.TimeSlotRepository;
@@ -22,7 +23,11 @@ public class TimeSlotServiceImpl implements TimeSlotService {
 
     @Override
     public TimeSlotEntity addTimeSlot(int courtId, int year, int month, int day, int hour, int minutes, int duration, boolean isBooked, int price) {
-        return timeSlotRepository.save(new TimeSlotEntity(courtRepository.findById(courtId), convertToDate(year, month, day, hour, minutes), duration, isBooked, price));
+        CourtEntity court = courtRepository.findById(courtId);
+        TimeSlotEntity timeSlot = timeSlotRepository.save(new TimeSlotEntity(court, convertToDate(year, month, day, hour, minutes), duration, isBooked, price));
+        court.addTimeSlot(timeSlot);
+        courtRepository.save(court);
+        return timeSlot;
     }
 
     @Override

@@ -6,14 +6,14 @@ import org.lognet.springboot.grpc.GRpcService;
 import sep3datalayer.grpc.protobuf.*;
 import sep3datalayer.models.CenterEntity;
 import sep3datalayer.models.UserEntity;
-import sep3datalayer.services.UserServiceImpl;
+import sep3datalayer.services.interfaces.UserService;
 
 @GRpcService
 public class UserImpl extends UserServiceGrpc.UserServiceImplBase {
 
-    private final UserServiceImpl userService;
+    private final UserService userService;
 
-    public UserImpl(UserServiceImpl userService) {
+    public UserImpl(UserService userService) {
         this.userService = userService;
     }
 

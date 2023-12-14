@@ -5,15 +5,14 @@ import io.grpc.stub.StreamObserver;
 import org.lognet.springboot.grpc.GRpcService;
 import sep3datalayer.grpc.protobuf.*;
 import sep3datalayer.models.TimeSlotEntity;
-import sep3datalayer.services.TimeSlotServiceImpl;
-
+import sep3datalayer.services.interfaces.TimeSlotService;
 
 @GRpcService
 public class TimeSlotImpl extends TimeSlotServiceGrpc.TimeSlotServiceImplBase {
 
-    private final TimeSlotServiceImpl timeSlotService;
+    private final TimeSlotService timeSlotService;
 
-    public TimeSlotImpl(TimeSlotServiceImpl timeSlotService) {
+    public TimeSlotImpl(TimeSlotService timeSlotService) {
         this.timeSlotService = timeSlotService;
     }
 

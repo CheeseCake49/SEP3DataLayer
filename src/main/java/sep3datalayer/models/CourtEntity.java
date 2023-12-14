@@ -5,6 +5,7 @@ import jakarta.persistence.Table;
 import org.hibernate.annotations.*;
 import sep3datalayer.grpc.protobuf.CourtGrpc;
 
+import java.util.List;
 import java.util.Objects;
 
 @Entity(name = "Court")
@@ -24,6 +25,8 @@ public class CourtEntity {
     private int courtNumber;
     @Column(name = "sponsor")
     private String courtSponsor;
+    @OneToMany (fetch = FetchType.LAZY) @JoinColumn(name = "court_id") @OnDelete(action = OnDeleteAction.CASCADE)
+    private List<TimeSlotEntity> timeSlots;
 
     public CourtEntity(){
 
@@ -66,6 +69,10 @@ public class CourtEntity {
 
     public void setCourtSponsor(String courtSponsor) {
         this.courtSponsor = courtSponsor;
+    }
+
+    public void addTimeSlot(TimeSlotEntity timeSlot) {
+        timeSlots.add(timeSlot);
     }
 
     @Override

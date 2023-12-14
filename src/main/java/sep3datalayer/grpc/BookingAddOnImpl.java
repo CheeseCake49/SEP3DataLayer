@@ -7,16 +7,16 @@ import sep3datalayer.grpc.protobuf.BookingAddOnGrpc;
 import sep3datalayer.grpc.protobuf.BookingAddOnServiceGrpc;
 import sep3datalayer.grpc.protobuf.CreatingBookingAddOn;
 import sep3datalayer.models.Booking.BookingAddOnEntity;
-import sep3datalayer.services.BookingAddOnServiceImpl;
-import sep3datalayer.services.BookingServiceImpl;
+import sep3datalayer.services.interfaces.BookingAddOnService;
+import sep3datalayer.services.interfaces.BookingService;
 
 @GRpcService
 public class BookingAddOnImpl extends BookingAddOnServiceGrpc.BookingAddOnServiceImplBase{
 
-    private final BookingAddOnServiceImpl bookingAddOnService;
-    private final BookingServiceImpl bookingService;
+    private final BookingAddOnService bookingAddOnService;
+    private final BookingService bookingService;
 
-    public BookingAddOnImpl(BookingAddOnServiceImpl bookingAddOnService, BookingServiceImpl bookingService) {
+    public BookingAddOnImpl(BookingAddOnService bookingAddOnService, BookingService bookingService) {
         this.bookingAddOnService = bookingAddOnService;
         this.bookingService = bookingService;
     }

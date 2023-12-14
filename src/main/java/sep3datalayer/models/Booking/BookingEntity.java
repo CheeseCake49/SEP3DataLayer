@@ -27,7 +27,7 @@ public class BookingEntity {
    @Column(name = "total_price")
    private int totalPrice;
 
-   @OneToMany (fetch = FetchType.LAZY) @JoinColumn(name = "booking_id") @OnDelete(action = OnDeleteAction.CASCADE)
+   @OneToMany (fetch = FetchType.LAZY) @JoinColumn(name = "booking_id") @OnDelete(action = OnDeleteAction.SET_NULL)
    private List<TimeSlotEntity> timeSlotEntities;
 
    public BookingEntity() {

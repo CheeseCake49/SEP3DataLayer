@@ -5,21 +5,17 @@ import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
 import org.lognet.springboot.grpc.GRpcService;
 import sep3datalayer.grpc.protobuf.*;
-import sep3datalayer.models.CenterEntity;
 import sep3datalayer.models.CourtEntity;
 import sep3datalayer.services.CenterServiceImpl;
-import sep3datalayer.services.CourtServiceImpl;
-
-import javax.naming.NameNotFoundException;
-
+import sep3datalayer.services.interfaces.CourtService;
 
 @GRpcService
 public class CourtImpl extends CourtServiceGrpc.CourtServiceImplBase {
 
-    private final CourtServiceImpl courtService;
+    private final CourtService courtService;
     private final CenterServiceImpl centerService;
 
-    public CourtImpl(CourtServiceImpl courtService, CenterServiceImpl centerService) {
+    public CourtImpl(CourtService courtService, CenterServiceImpl centerService) {
         this.courtService = courtService;
         this.centerService = centerService;
     }

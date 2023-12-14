@@ -1,9 +1,8 @@
 package sep3datalayer.models;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Formula;
-import org.hibernate.annotations.NaturalIdCache;
+import jakarta.persistence.Table;
+import org.hibernate.annotations.*;
 import sep3datalayer.grpc.protobuf.TimeSlotGrpc;
 import sep3datalayer.models.Booking.BookingEntity;
 
@@ -18,7 +17,7 @@ public class TimeSlotEntity {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private int id;
-    @ManyToOne (fetch = FetchType.LAZY) @JoinColumn(name = "court_id", referencedColumnName = "id")
+    @ManyToOne (fetch = FetchType.LAZY) @JoinColumn(name = "court_id", referencedColumnName = "id") @OnDelete(action = OnDeleteAction.CASCADE)
     private CourtEntity court;
     @Column(name = "start_time", columnDefinition = "TIMESTAMP(0) WITHOUT TIME ZONE")
     private LocalDateTime startTime;

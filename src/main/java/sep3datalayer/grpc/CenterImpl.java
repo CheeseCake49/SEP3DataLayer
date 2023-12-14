@@ -6,14 +6,13 @@ import io.grpc.stub.StreamObserver;
 import org.lognet.springboot.grpc.GRpcService;
 import sep3datalayer.grpc.protobuf.*;
 import sep3datalayer.models.CenterEntity;
-import sep3datalayer.services.CenterServiceImpl;
-
+import sep3datalayer.services.interfaces.CenterService;
 
 @GRpcService public class CenterImpl extends CenterServiceGrpc.CenterServiceImplBase {
 
-    private final CenterServiceImpl centerService;
+    private final CenterService centerService;
 
-    public CenterImpl(CenterServiceImpl centerService) {
+    public CenterImpl(CenterService centerService) {
         this.centerService = centerService;
     }
 
